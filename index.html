@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Turnero Digital</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      html {
+        min-height: 100%;
+      }
+
+      body {
+        background: #eef2f7;
+        color: #f8fafc;
+      }
+
+      /* ==========================
+   PANTALLA PRINCIPAL
+========================== */
+
+      .turnero {
+        width: 100%;
+        height: 23vh;
+        max-width: none;
+        margin: 0;
+        background: linear-gradient(135deg, #0f172a, #1e3a8a);
+        color: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+        padding: 0.5rem 0.9rem 0.4rem;
+        gap: 0.2rem;
+      }
+
+      .identificador {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.9rem;
+        padding: 0.6rem 1rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(10px);
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-size: clamp(1rem, 2vw, 1.3rem);
+      }
+
+      .fecha-hora {
+        position: absolute;
+        top: 0.9rem;
+        right: 1rem;
+        text-align: right;
+        max-width: 45%;
+      }
+
+      .fecha {
+        font-size: min(1rem, 2.4vw);
+        opacity: 0.9;
+        white-space: nowrap;
+      }
+
+      .hora {
+        font-size: min(1.6rem, 5vw);
+        font-weight: 800;
+        color: #60a5fa;
+        line-height: 1.05;
+      }
+
+      .numero-turno {
+        font-size: clamp(7.5rem, 28vw, 17rem);
+        font-weight: 900;
+        color: #facc15;
+        letter-spacing: clamp(0.12rem, 0.9vw, 0.7rem);
+        line-height: 0.82;
+        margin-top: -0.5rem;
+        margin-bottom: 1.2rem;
+        text-shadow:
+          0 0 20px rgba(250, 204, 21, 0.5),
+          0 0 40px rgba(250, 204, 21, 0.25);
+      }
+
+      .rotado .turnero {
+        height: 23vw;
+      }
+
+      .rotado .numero-turno {
+        font-size: clamp(5.5rem, 26vw, 13rem);
+      }
+
+      /* ==========================
+   ANIMACIÓN TURNO
+========================== */
+
+      .animar-turno {
+        animation: zoomTurno 0.35s ease;
+      }
+
+      @keyframes zoomTurno {
+        0% {
+          transform: scale(0.85);
+        }
+
+        50% {
+          transform: scale(1.15);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* ==========================
+   MODAL
+========================== */
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .oculto {
+        display: none;
+      }
+
+      .modal-contenido {
+        width: min(650px, 95vw);
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #111827;
+        border-radius: 20px;
+        padding: 28px;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal h2 {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+
+      .modal ul {
+        list-style: none;
+      }
+
+      .modal li {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        transition: 0.2s;
+      }
+
+      .modal li.seleccionado {
+        background: #2563eb;
+      }
+
+      .ayuda {
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0.75;
+        line-height: 1.45;
+        font-size: clamp(0.9rem, 1.1vw, 1rem);
+      }
+
+      .modo-actual {
+        text-align: center;
+        margin-top: 15px;
+        color: #93c5fd;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 720px) {
+        .turnero {
+          padding: 1rem;
+          height: 23vh;
+        }
+
+        .fecha-hora {
+          top: 0.9rem;
+          right: 0.75rem;
+          max-width: 55%;
+        }
+
+        .numero-turno {
+          font-size: clamp(3.5rem, 18vw, 9.5rem);
+          letter-spacing: 0.35rem;
+        }
+
+        .modal-contenido {
+          padding: 1.25rem;
+        }
+
+        .modal li {
+          padding: 1rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="turnero">
+      <div class="identificador">PANTALLA #1</div>
+
+      <div class="fecha-hora">
+        <div class="fecha" id="fecha"></div>
+        <div class="hora" id="hora"></div>
+      </div>
+
+      <div class="numero-turno" id="turno">A001</div>
+    </div>
+
+    <div class="modal oculto" id="modalConfig">
+      <div class="modal-contenido">
+        <h2>CONFIGURACIÓN DE TURNOS</h2>
+
+        <ul id="listaModos"></ul>
+
+        <div class="modo-actual" id="modoActual"></div>
+
+        <div class="ayuda">
+          ↑ ↓ Navegar &nbsp; • &nbsp; ENTER Seleccionar &nbsp; • &nbsp; ESC
+          Cerrar
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ==========================
+   CONFIGURACIÓN
+========================== */
+
+      const LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      let contador = 1;
+      let letraIndex = 0;
+
+      let menuAbierto = false;
+      let opcionSeleccionada = 0;
+      let rotado = false;
+      let anguloRotacion = 0;
+      let timerAnuncio = null;
+      const STATE_KEY = "turnero_state";
+
+      const modos = [
+        {
+          nombre: "2 cifras (00-99)",
+          digitos: 2,
+          usaLetra: false,
+          maximo: 99,
+        },
+
+        {
+          nombre: "2 cifras con letra (A00-Z99)",
+          digitos: 2,
+          usaLetra: true,
+          maximo: 99,
+        },
+
+        {
+          nombre: "3 cifras (000-999)",
+          digitos: 3,
+          usaLetra: false,
+          maximo: 999,
+        },
+
+        {
+          nombre: "3 cifras con letra (A000-Z999)",
+          digitos: 3,
+          usaLetra: true,
+          maximo: 999,
+        },
+
+        {
+          nombre: "🔄 Reiniciar contador",
+          accion: "reiniciar",
+        },
+
+        {
+          nombre: "↻ Girar contenido",
+          accion: "rotar",
+        },
+      ];
+
+      let modoActual = 3;
+
+      /* ==========================
+   FECHA Y HORA
+========================== */
+
+      function actualizarFechaHora() {
+        const ahora = new Date();
+
+        document.getElementById("fecha").textContent = ahora.toLocaleDateString(
+          "es-DO",
+          {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          },
+        );
+
+        document.getElementById("hora").textContent =
+          ahora.toLocaleTimeString("es-DO");
+      }
+
+      setInterval(actualizarFechaHora, 1000);
+      actualizarFechaHora();
+
+      /* ==========================
+   TURNO
+========================== */
+
+      function obtenerTextoTurno() {
+        const modo = modos[modoActual];
+
+        const numero = String(contador).padStart(modo.digitos, "0");
+
+        if (!modo.usaLetra) {
+          return numero;
+        }
+
+        return LETRAS[letraIndex] + numero;
+      }
+
+      function animarTurno() {
+        const turno = document.getElementById("turno");
+
+        turno.textContent = obtenerTextoTurno();
+
+        turno.classList.remove("animar-turno");
+
+        void turno.offsetWidth;
+
+        turno.classList.add("animar-turno");
+      }
+
+      function actualizarTurno() {
+        animarTurno();
+        saveState();
+        anunciarTurno();
+      }
+
+      function anunciarTurno() {
+        // Cancelar anuncio anterior
+        if (timerAnuncio !== null) {
+          clearTimeout(timerAnuncio);
+          timerAnuncio = null;
+        }
+        speechSynthesis.cancel();
+
+        const textoTurno = obtenerTextoTurno();
+        let reproduccionesRestantes = 3;
+
+        function reproducirVoz() {
+          if (reproduccionesRestantes === 0) return;
+          animarTurno();
+          const utterance = new SpeechSynthesisUtterance(textoTurno);
+          utterance.lang = "es-ES";
+          utterance.rate = 0.7;
+          utterance.pitch = 1;
+          utterance.volume = 1;
+
+          speechSynthesis.speak(utterance);
+
+          reproduccionesRestantes--;
+
+          if (reproduccionesRestantes > 0) {
+            timerAnuncio = setTimeout(reproducirVoz, 3000);
+          }
+        }
+
+        reproducirVoz();
+      }
+
+      function siguienteTurno() {
+        const modo = modos[modoActual];
+
+        contador++;
+
+        if (contador > modo.maximo) {
+          contador = 0;
+
+          if (modo.usaLetra) {
+            letraIndex++;
+
+            if (letraIndex >= LETRAS.length) {
+              letraIndex = 0;
+            }
+          }
+        }
+
+        actualizarTurno();
+      }
+
+      function turnoAnterior() {
+        const modo = modos[modoActual];
+
+        contador--;
+
+        if (contador < 0) {
+          contador = modo.maximo;
+
+          if (modo.usaLetra) {
+            letraIndex--;
+
+            if (letraIndex < 0) {
+              letraIndex = LETRAS.length - 1;
+            }
+          }
+        }
+
+        actualizarTurno();
+      }
+
+      /* ==========================
+   MENÚ
+========================== */
+
+      function abrirMenu() {
+        menuAbierto = true;
+
+        document.getElementById("modalConfig").classList.remove("oculto");
+
+        renderizarMenu();
+      }
+
+      function cerrarMenu() {
+        menuAbierto = false;
+
+        document.getElementById("modalConfig").classList.add("oculto");
+      }
+
+      function renderizarMenu() {
+        const lista = document.getElementById("listaModos");
+
+        lista.innerHTML = "";
+
+        modos.forEach((modo, index) => {
+          const li = document.createElement("li");
+
+          li.textContent = modo.nombre;
+
+          if (index === opcionSeleccionada) {
+            li.classList.add("seleccionado");
+          }
+
+          lista.appendChild(li);
+        });
+
+        document.getElementById("modoActual").textContent =
+          "Modo actual: " + modos[modoActual].nombre;
+      }
+
+      function seleccionarModo() {
+        const opcion = modos[opcionSeleccionada];
+
+        if (opcion.accion === "reiniciar") {
+          reiniciarContador();
+
+          cerrarMenu();
+
+          return;
+        }
+
+        if (opcion.accion === "rotar") {
+          girarContenido();
+
+          cerrarMenu();
+
+          return;
+        }
+
+        modoActual = opcionSeleccionada;
+
+        contador = 0;
+        letraIndex = 0;
+
+        actualizarTurno();
+
+        cerrarMenu();
+      }
+
+      function girarContenido() {
+        anguloRotacion = (anguloRotacion + 90) % 360;
+        rotado = anguloRotacion !== 0;
+
+        if (rotado) {
+          aplicarRotacion();
+          document.documentElement.classList.add("rotado");
+        } else {
+          quitarRotacion();
+          document.documentElement.classList.remove("rotado");
+        }
+        saveState();
+      }
+
+      function aplicarRotacion() {
+        const ancho = window.innerWidth;
+        const alto = window.innerHeight;
+        const menor = Math.min(ancho, alto);
+        const turnero = document.querySelector(".turnero");
+        const angle = anguloRotacion;
+
+        let left = 0;
+        let top = 0;
+        let width = ancho;
+        let height = alto;
+
+        if (angle === 90) {
+          left = ancho;
+          width = alto;
+          height = ancho;
+        } else if (angle === 180) {
+          left = ancho;
+          top = alto;
+          width = ancho;
+          height = alto;
+        } else if (angle === 270) {
+          top = alto;
+          width = alto;
+          height = ancho;
+        }
+
+        document.documentElement.style.cssText = `transform: rotate(${angle}deg); transform-origin: 0 0; position: absolute; top: ${top}px; left: ${left}px; width: ${width}px; height: ${height}px; overflow: hidden;`;
+
+        document.body.style.cssText = `position: absolute; top: 0; left: 0; width: ${width}px; height: ${height}px; overflow: hidden; margin: 0; padding: 0;`;
+
+        if (turnero) {
+          const alturaTurnero = Math.round(menor * 0.23);
+          turnero.style.height = `${alturaTurnero}px`;
+          turnero.style.maxHeight = `${alturaTurnero}px`;
+        }
+      }
+
+      function quitarRotacion() {
+        document.documentElement.style.cssText = "";
+        document.body.style.cssText = "";
+
+        const turnero = document.querySelector(".turnero");
+
+        if (turnero) {
+          turnero.style.height = "";
+          turnero.style.maxHeight = "";
+        }
+      }
+
+      window.addEventListener("resize", () => {
+        if (rotado) {
+          aplicarRotacion();
+        }
+      });
+
+      function reiniciarContador() {
+        contador = 0;
+        letraIndex = 0;
+
+        actualizarTurno();
+      }
+
+      function saveState() {
+        try {
+          const state = {
+            contador,
+            letraIndex,
+            modoActual,
+            anguloRotacion,
+            rotado,
+          };
+
+          localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STATE_KEY);
+          if (!raw) return;
+
+          const s = JSON.parse(raw);
+
+          if (typeof s.contador === "number") contador = s.contador;
+          if (typeof s.letraIndex === "number") letraIndex = s.letraIndex;
+          if (typeof s.modoActual === "number") modoActual = s.modoActual;
+          if (typeof s.anguloRotacion === "number")
+            anguloRotacion = s.anguloRotacion;
+          if (typeof s.rotado === "boolean") rotado = s.rotado;
+          // ensure values fit within current mode limits
+          const modo = modos[modoActual] || modos[0];
+          if (typeof contador === "number") {
+            if (contador < 0) contador = 0;
+            if (contador > modo.maximo) contador = modo.maximo;
+          }
+          if (typeof letraIndex === "number") {
+            if (letraIndex < 0) letraIndex = 0;
+            if (letraIndex >= LETRAS.length) letraIndex = 0;
+          }
+        } catch (e) {}
+      }
+      /* ==========================
+   TECLADO
+========================== */
+
+      document.addEventListener("keydown", (e) => {
+        if (menuAbierto) {
+          switch (e.key) {
+            case "ArrowUp":
+              opcionSeleccionada--;
+
+              if (opcionSeleccionada < 0) {
+                opcionSeleccionada = modos.length - 1;
+              }
+
+              renderizarMenu();
+              break;
+
+            case "ArrowDown":
+              opcionSeleccionada++;
+
+              if (opcionSeleccionada >= modos.length) {
+                opcionSeleccionada = 0;
+              }
+
+              renderizarMenu();
+              break;
+
+            case "Enter":
+            case "ArrowRight":
+              seleccionarModo();
+              break;
+
+            case "Escape":
+            case "ArrowLeft":
+              cerrarMenu();
+              break;
+          }
+
+          return;
+        }
+
+        switch (e.key) {
+          case "Enter":
+            abrirMenu();
+            break;
+
+          case "ArrowRight":
+            siguienteTurno();
+            break;
+
+          case "ArrowLeft":
+            turnoAnterior();
+            break;
+        }
+      });
+
+      /* ==========================
+    INICIO
+  ========================== */
+
+      loadState();
+      if (rotado && anguloRotacion) {
+        aplicarRotacion();
+        document.documentElement.classList.add("rotado");
+      }
+
+      actualizarTurno();
+    </script>
+  </body>
+</html>
