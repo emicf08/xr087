@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    // Version 1.0.4 - 2024-06-15
+
     <title>Turnero Digital 3</title>
 
     <style>
@@ -262,13 +262,13 @@
     </div>
 
     <script>
-      alert(
+      /*alert(
         "Screen width: " +
           screen.width +
           " px\nScreen height: " +
           screen.height +
           " px",
-      );
+      );*/
 
       /* ==========================
    CONFIGURACIÓN
@@ -630,24 +630,29 @@
         }
 
         if (esPortrait) {
+          alert("Uno.");
           turnero.style.height = "28vh";
           numeroTurno.style.fontSize = "clamp(4.5rem, 20vw, 10rem)";
           fechaHora.style.padding = "0.4rem 0.75rem";
           identificador.style.fontSize = "clamp(0.95rem, 2.8vw, 1.2rem)";
           modalContenido.style.maxWidth = "95vw";
         } else if (ancho <= 720) {
+          alert("Dos.");
           turnero.style.height = "24vh";
           numeroTurno.style.fontSize = "clamp(3.5rem, 18vw, 9.5rem)";
           fechaHora.style.padding = "0.35rem 0.7rem";
           identificador.style.fontSize = "clamp(0.9rem, 2.2vw, 1.1rem)";
           modalContenido.style.maxWidth = "95vw";
         } else if (ancho <= 1024) {
+          //alert("Tres.");
           turnero.style.height = "25vh";
-          numeroTurno.style.fontSize = "clamp(5.5rem, 22vw, 12rem)";
-          fechaHora.style.padding = "0.4rem 0.8rem";
+          numeroTurno.style.fontSize = "clamp(5.5rem, 18vw, 12rem)";
+          fechaHora.style.padding = "0.4rem 1rem";
           identificador.style.fontSize = "clamp(1rem, 2vw, 1.2rem)";
           modalContenido.style.maxWidth = "90vw";
+          numeroTurno.style.marginTop = "1.5rem";
         } else {
+          //alert("Cuatro.");
           turnero.style.height = "23vh";
           numeroTurno.style.fontSize = "clamp(7.5rem, 28vw, 17rem)";
           fechaHora.style.padding = "0.3rem 0.8rem";
