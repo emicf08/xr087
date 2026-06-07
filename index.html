@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    // Version 1.0.3 - 2024-06-15
     <title>Turnero Digital 3</title>
 
     <style>
@@ -70,23 +70,30 @@
 
       .fecha-hora {
         position: absolute;
-        top: 0.9rem;
+        top: 0.75rem;
         right: 1rem;
         text-align: right;
-        max-width: 45%;
+        max-width: 55%;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.3rem 0.8rem;
+        border-radius: 32px;
+        backdrop-filter: blur(4px);
+        z-index: 2;
       }
 
       .fecha {
-        font-size: min(1rem, 2.4vw);
+        font-size: clamp(0.65rem, 2.5vw, 0.9rem);
         opacity: 0.9;
         white-space: nowrap;
+        font-weight: 500;
       }
 
       .hora {
-        font-size: min(1.6rem, 5vw);
+        font-size: clamp(1.2rem, 5vw, 2rem);
         font-weight: 800;
         color: #60a5fa;
-        line-height: 1.05;
+        line-height: 1.1;
+        letter-spacing: 0.5px;
       }
 
       .numero-turno {
