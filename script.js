@@ -235,7 +235,6 @@ function girarContenido() {
 function aplicarRotacion() {
   const ancho = window.innerWidth;
   const alto = window.innerHeight;
-  const turnero = document.querySelector(".turnero");
   const angle = anguloRotacion;
 
   let left = 0;
@@ -264,13 +263,6 @@ function aplicarRotacion() {
   document.body.style.cssText =
     `position: absolute; top: 0; left: 0; width: ${width}px; height: ${height}px; overflow: hidden; margin: 0; padding: 0;`;
 
-  if (turnero) {
-    const menor = Math.min(ancho, alto);
-    const alturaTurnero = Math.round(menor * 0.23);
-    turnero.style.height = `${alturaTurnero}px`;
-    turnero.style.maxHeight = `${alturaTurnero}px`;
-  }
-
   aplicarConfiguracionResponsive();
 
 }
@@ -279,12 +271,7 @@ function quitarRotacion() {
   document.documentElement.style.cssText = "";
   document.body.style.cssText = "";
 
-  const turnero = document.querySelector(".turnero");
-
-  if (turnero) {
-    turnero.style.height = "";
-    turnero.style.maxHeight = "";
-  }
+  aplicarConfiguracionResponsive();
 }
 
 window.addEventListener("resize", () => {
@@ -333,11 +320,11 @@ function aplicarConfiguracionResponsive() {
 
   if (esPortrait) {
     alert("Modo uno");
-    turnero.style.height = "28vh";
-    numeroTurno.style.fontSize = "clamp(4.5rem, 20vw, 10rem)";
-    fechaHora.style.padding = "0.4rem 0.75rem";
-    identificador.style.fontSize = "clamp(0.95rem, 2.8vw, 1.2rem)";
-    modalContenido.style.maxWidth = "95vw";
+   turnero.style.height = "23vh";
+    numeroTurno.style.fontSize = "clamp(7.5rem, 28vw, 13rem)";
+    fechaHora.style.padding = "0.3rem 0.8rem";
+    identificador.style.fontSize = "clamp(1rem, 2vw, 1.3rem)";
+    modalContenido.style.maxWidth = "650px";
   } else if (ancho <= 720) {
     alert("Modo dos");
     turnero.style.height = "24vh";
