@@ -5,29 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Turnero Digital 3</title>
+    <!-- Se vincula el archivo de estilos CSS externo -->
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
+    <!-- Contenedor principal del turno mostrado en pantalla -->
     <div class="turnero">
+      <!-- Identificador de la pantalla o puesto -->
       <div class="identificador">PANTALLA #1</div>
 
+      <!-- Área donde se muestra la fecha y hora actual -->
       <div class="fecha-hora">
         <div class="fecha" id="fecha"></div>
         <div class="hora" id="hora"></div>
       </div>
 
+      <!-- Número de turno grande del centro -->
       <div class="numero-turno" id="turno">A001</div>
     </div>
 
+    <!-- Modal de configuración que se muestra al presionar ENTER -->
     <div class="modal oculto" id="modalConfig">
       <div class="modal-contenido">
         <h2>CONFIGURACIÓN DE TURNOS</h2>
 
+        <!-- Lista de modos de turno y acciones disponibles -->
         <ul id="listaModos"></ul>
 
+        <!-- Texto que indica el modo actual seleccionado -->
         <div class="modo-actual" id="modoActual"></div>
 
+        <!-- Ayuda para el usuario con las teclas de navegación -->
         <div class="ayuda">
           ↑ ↓ Navegar &nbsp; • &nbsp; ENTER Seleccionar &nbsp; • &nbsp; ESC
           Cerrar
@@ -35,6 +44,7 @@
       </div>
     </div>
 
+    <!-- Se vincula el archivo JavaScript externo con la lógica de la aplicación -->
     <script src="script.js"></script>
   </body>
 </html>
