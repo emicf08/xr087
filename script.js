@@ -347,7 +347,7 @@ class TurneroApp {
 
     // Caso: pantalla rotada (90° o 270°)
     if (this.state.rotado && (this.state.anguloRotacion === 90 || this.state.anguloRotacion === 270)) {
-      const alturaTurnero = Math.min(Math.max(Math.round(ancho * 0.26), 220), Math.round(alto * 0.5));
+      const alturaTurnero = Math.min(Math.max(Math.round(ancho * 0.26), 220), Math.round(alto * 0.1));
       const tamanoTurno = Math.min(Math.max(Math.round(ancho * 0.18), 72), 200);
       this.refs.turnero.style.height = `${alturaTurnero}px`;
       this.refs.numeroTurno.style.fontSize = `${tamanoTurno}px`;
