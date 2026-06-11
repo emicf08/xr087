@@ -15,6 +15,7 @@ class TurneroApp {
       { nombre: "3 cifras con letra (A000-Z999)", digitos: 3, usaLetra: true, maximo: 999 },
       { nombre: "🔄 Reiniciar contador", accion: "reiniciar" },
       { nombre: "↻ Girar contenido", accion: "rotar" },
+      { nombre: "❌ Salir", accion: "salir" },
     ];
 
     /* Estado interno de la aplicación */
@@ -250,6 +251,12 @@ class TurneroApp {
     // Si es la opción "Girar contenido"
     if (opcion.accion === "rotar") {
       this.rotateContent();
+      this.closeMenu();
+      return;
+    }
+
+    // Si es la opción "Salir"
+    if (opcion.accion === "salir") {
       this.closeMenu();
       return;
     }
