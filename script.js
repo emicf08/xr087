@@ -332,7 +332,18 @@ class TurneroApp {
       return;
     }
 
-    if (esPortrait) {
+    if (this.state.rotado && (this.state.anguloRotacion === 90 || this.state.anguloRotacion === 270)) {
+      /* Cuando la pantalla está rotada, ajustamos el turno según el ancho disponible */
+      const alturaTurnero = Math.min(Math.max(Math.round(ancho * 0.26), 220), Math.round(alto * 0.5));
+      const tamanoTurno = Math.min(Math.max(Math.round(ancho * 0.18), 72), 200);
+
+      this.refs.turnero.style.height = `${alturaTurnero}px`;
+      this.refs.numeroTurno.style.fontSize = `${tamanoTurno}px`;
+      this.refs.fechaHora.style.padding = "0.35rem 0.75rem";
+      this.refs.identificador.style.fontSize = "clamp(0.95rem, 2.8vw, 1.2rem)";
+      this.refs.modalContenido.style.maxWidth = "95vw";
+      this.refs.numeroTurno.style.marginTop = "1rem";
+    } else if (esPortrait) {
       this.refs.turnero.style.height = "28vh";
       this.refs.numeroTurno.style.fontSize = "clamp(4.5rem, 20vw, 10rem)";
       this.refs.fechaHora.style.padding = "0.4rem 0.75rem";
