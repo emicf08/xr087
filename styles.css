@@ -1,0 +1,224 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  background: #eef2f7;
+  color: #f8fafc;
+}
+
+/* ==========================
+PANTALLA PRINCIPAL
+========================== */
+
+.turnero {
+  width: 100%;
+  height: 23vh;
+  max-width: none;
+  margin: 0;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem 0.9rem 0.4rem;
+  gap: 0.2rem;
+}
+
+.identificador {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.9rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.fecha-hora {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  text-align: right;
+  max-width: 55%;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 32px;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.fecha {
+  font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+  opacity: 0.9;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.hora {
+  font-size: clamp(1.2rem, 5vw, 2rem);
+  font-weight: 800;
+  color: #60a5fa;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.numero-turno {
+  font-size: clamp(7.5rem, 28vw, 17rem);
+  font-weight: 900;
+  color: #facc15;
+  letter-spacing: clamp(0.12rem, 0.9vw, 0.7rem);
+  line-height: 0.82;
+  margin-top: -0.5rem;
+  margin-bottom: 1.2rem;
+  text-shadow:
+    0 0 20px rgba(250, 204, 21, 0.5),
+    0 0 40px rgba(250, 204, 21, 0.25);
+}
+
+.rotado .turnero {
+  height: 23vw;
+}
+
+.rotado .numero-turno {
+  font-size: clamp(5.5rem, 26vw, 13rem);
+}
+
+/* ==========================
+ANIMACIÓN TURNO
+========================== */
+
+.animar-turno {
+  animation: zoomTurno 0.35s ease;
+}
+
+@keyframes zoomTurno {
+  0% {
+    transform: scale(0.85);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ==========================
+MODAL
+========================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.oculto {
+  display: none;
+}
+
+.modal-contenido {
+  width: min(650px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #111827;
+  border-radius: 20px;
+  padding: 28px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal h2 {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.modal ul {
+  list-style: none;
+}
+
+.modal li {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  transition: 0.2s;
+}
+
+.modal li.seleccionado {
+  background: #2563eb;
+}
+
+.ayuda {
+  margin-top: 20px;
+  text-align: center;
+  opacity: 0.75;
+  line-height: 1.45;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+}
+
+.modo-actual {
+  text-align: center;
+  margin-top: 15px;
+  color: #93c5fd;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .turnero {
+    padding: 1rem;
+    height: 23vh;
+  }
+
+  .fecha-hora {
+    top: 0.9rem;
+    right: 0.75rem;
+    max-width: 55%;
+  }
+
+  .numero-turno {
+    font-size: clamp(3.5rem, 18vw, 9.5rem);
+    letter-spacing: 0.35rem;
+  }
+
+  .modal-contenido {
+    padding: 1.25rem;
+  }
+
+  .modal li {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
