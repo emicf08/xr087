@@ -270,6 +270,9 @@ function aplicarRotacion() {
     turnero.style.height = `${alturaTurnero}px`;
     turnero.style.maxHeight = `${alturaTurnero}px`;
   }
+
+  aplicarConfiguracionResponsive();
+
 }
 
 function quitarRotacion() {
@@ -303,8 +306,15 @@ function reiniciarContador() {
 }
 
 function aplicarConfiguracionResponsive() {
-  const ancho = window.innerWidth;
-  const esPortrait = window.matchMedia("(orientation: portrait)").matches;
+  let ancho = window.innerWidth;
+  let alto = window.innerHeight;
+
+  if (rotado && (anguloRotacion === 90 || anguloRotacion === 270)) {
+    ancho = window.innerHeight;
+    alto = window.innerWidth;
+  }
+
+  const esPortrait = alto > ancho;
   const turnero = document.querySelector(".turnero");
   const numeroTurno = document.querySelector(".numero-turno");
   const fechaHora = document.querySelector(".fecha-hora");
@@ -322,18 +332,21 @@ function aplicarConfiguracionResponsive() {
   }
 
   if (esPortrait) {
+    alert("Modo uno");
     turnero.style.height = "28vh";
     numeroTurno.style.fontSize = "clamp(4.5rem, 20vw, 10rem)";
     fechaHora.style.padding = "0.4rem 0.75rem";
     identificador.style.fontSize = "clamp(0.95rem, 2.8vw, 1.2rem)";
     modalContenido.style.maxWidth = "95vw";
   } else if (ancho <= 720) {
+    alert("Modo dos");
     turnero.style.height = "24vh";
     numeroTurno.style.fontSize = "clamp(3.5rem, 18vw, 9.5rem)";
     fechaHora.style.padding = "0.35rem 0.7rem";
     identificador.style.fontSize = "clamp(0.9rem, 2.2vw, 1.1rem)";
     modalContenido.style.maxWidth = "95vw";
   } else if (ancho <= 1024) {
+    alert("Modo tres");
     turnero.style.height = "25vh";
     numeroTurno.style.fontSize = "clamp(5.5rem, 18vw, 12rem)";
     fechaHora.style.padding = "0.4rem 1rem";
@@ -341,6 +354,7 @@ function aplicarConfiguracionResponsive() {
     modalContenido.style.maxWidth = "90vw";
     numeroTurno.style.marginTop = "1.5rem";
   } else {
+    alert("Modo cuatro");
     turnero.style.height = "23vh";
     numeroTurno.style.fontSize = "clamp(7.5rem, 28vw, 17rem)";
     fechaHora.style.padding = "0.3rem 0.8rem";
@@ -354,6 +368,7 @@ function aplicarConfiguracionResponsive() {
     document.body.style.fontSize = "1rem";
   }
 }
+
 
 function saveState() {
   try {
